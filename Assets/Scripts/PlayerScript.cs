@@ -12,7 +12,12 @@ public class PlayerScript : MonoBehaviour
     private Collider2D ThisCollision2D;
     [SerializeField]
     private string InitialColor;
-
+    [SerializeField]
+    private bool HaveBlue;
+    [SerializeField]
+    private bool HaveRed;
+    [SerializeField]
+    private bool HaveYellow;
 
 
     private string MyColor;
@@ -24,9 +29,15 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         AvaliableColors.Add(InitialColor);
+
+        if (HaveBlue) 
         AvaliableColors.Add("Blue");
+        if (HaveRed) 
         AvaliableColors.Add("Red");
+        if(HaveYellow)
         AvaliableColors.Add("Yellow");
+
+
         MyColor = AvaliableColors[0];
 
         
