@@ -58,7 +58,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -190,7 +190,7 @@ Transform:
   m_GameObject: {fileID: 4777713838272659215}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.1578202, y: -1.4909767, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.84586, y: 0.84586, z: 0.84586}
   m_Children:
   - {fileID: 519420032}
   - {fileID: 1321082072}
@@ -282,6 +282,9 @@ MonoBehaviour:
   speed: 5
   ThisCollision2D: {fileID: 4777713838272659209}
   InitialColor: White
+  HaveBlue: 0
+  HaveRed: 0
+  HaveYellow: 0
 --- !u!58 &4777713838272659209
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -81,27 +81,42 @@ public class PlayerScript : MonoBehaviour
     private void HandleColorChange()
     {
 
-        if (Input.GetKey("space") && Input.GetAxis("Mouse ScrollWheel") < 0f)
+        if (Input.GetKey(KeyCode.Q) )
         {
             
                 selectedColor--;
             Debug.Log("--");
-            selectedColor =Mathf.Clamp(selectedColor, 0, AvaliableColors.Count-1);
-            Debug.Log(selectedColor);
-            Debug.Log(AvaliableColors[selectedColor]);
-            MyColor = AvaliableColors[selectedColor];
-            ConfirmColorChange();
+            if (selectedColor < 0)
+            {
+                selectedColor++;
+            }
+            else
+            {
+                Debug.Log(selectedColor);
+                Debug.Log(AvaliableColors[selectedColor]);
+                MyColor = AvaliableColors[selectedColor];
+                ConfirmColorChange();
+            }
+
+          
+            
         }
-        else if (Input.GetKey("space") && Input.GetAxis("Mouse ScrollWheel") > 0f)
+        else if (Input.GetKey(KeyCode.E))
         {
             
                 selectedColor++;
             Debug.Log("++");
-            selectedColor = Mathf.Clamp(selectedColor, 0, AvaliableColors.Count-1);
-            Debug.Log(selectedColor);
-            Debug.Log(AvaliableColors[selectedColor]);
-            MyColor = AvaliableColors[selectedColor];
-            ConfirmColorChange();
+            if (selectedColor > AvaliableColors.Count - 1)
+            {
+                selectedColor--;
+            }
+            else
+            {
+                Debug.Log(selectedColor);
+                Debug.Log(AvaliableColors[selectedColor]);
+                MyColor = AvaliableColors[selectedColor];
+                ConfirmColorChange();
+            }
         }
 
 
@@ -141,6 +156,11 @@ public class PlayerScript : MonoBehaviour
         SavedCollider2Ds.Clear();
     }
 
+    public void GetColor(string Color)
+    {
+        AvaliableColors.Add(Color);
+        Debug.Log("Player got: " + Color);
+    }
 
 
 
