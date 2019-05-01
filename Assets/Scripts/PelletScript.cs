@@ -6,7 +6,7 @@ public class PelletScript : MonoBehaviour
 {
 
     [SerializeField]
-    private string ColorToGive;
+    private PlayerScript.Colors ColorToGive;
 
     // Start is called before the first frame update
     void Start()

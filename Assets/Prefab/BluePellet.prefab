@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d929a6e2c7521439a39c92f5b929ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColorToGive: Blue
+  ColorToGive: 0
 --- !u!58 &1238365528341200502
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: d6ec8cdfe0d53b3499db7bcdafc15451, type: 3}
   m_Color: {r: 0, g: 0.84142995, b: 1, a: 1}
   m_FlipX: 0

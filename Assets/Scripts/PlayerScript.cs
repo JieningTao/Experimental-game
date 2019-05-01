@@ -11,36 +11,51 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private Collider2D ThisCollision2D;
     [SerializeField]
-    private string InitialColor;
+    private Colors InitialColor;
     [SerializeField]
     private bool HaveBlue;
     [SerializeField]
     private bool HaveRed;
     [SerializeField]
     private bool HaveYellow;
+    [SerializeField]
+    private LayerMask checkmask;
 
 
-    private string MyColor;
-    private List<string> AvaliableColors = new List<string>();
+    private Colors MyColor;
+    private List<Colors> AvaliableColors = new List<Colors>();
     private List<Collider2D> SavedCollider2Ds = new List<Collider2D>();
+    private Collider2D checkCollider;
+    private Collider2D[] checkHitResults = new Collider2D[20];
     private int selectedColor;
 
+
+    public enum Colors
+    {
+        White,
+        Blue,
+        Red,
+        Yellow,
+    }
+
+    //consider using seperate colliders for different colors.
     // Start is called before the first frame update
     void Start()
     {
         AvaliableColors.Add(InitialColor);
 
         if (HaveBlue) 
-        AvaliableColors.Add("Blue");
+        AvaliableColors.Add(Colors.Blue);
         if (HaveRed) 
-        AvaliableColors.Add("Red");
+        AvaliableColors.Add(Colors.Red);
         if(HaveYellow)
-        AvaliableColors.Add("Yellow");
+        AvaliableColors.Add(Colors.Yellow);
 
 
         MyColor = AvaliableColors[0];
+        checkCollider = GetComponentInChildren<Collider2D>();
 
-        
+
 
     }
 
@@ -67,7 +82,7 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.tag == MyColor)
+        if (collision.gameObject.tag == MyColor.ToString())
         {
             SavedCollider2Ds.Add(collision.collider);
             Physics2D.IgnoreCollision(collision.collider, ThisCollision2D,true);
@@ -80,44 +95,57 @@ public class PlayerScript : MonoBehaviour
 
     private void HandleColorChange()
     {
+        
 
-        if (Input.GetKey(KeyCode.Q) )
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            
-                selectedColor--;
-            Debug.Log("--");
-            if (selectedColor < 0)
-            {
-                selectedColor++;
-            }
-            else
-            {
-                Debug.Log(selectedColor);
-                Debug.Log(AvaliableColors[selectedColor]);
-                MyColor = AvaliableColors[selectedColor];
-                ConfirmColorChange();
-            }
 
-          
-            
-        }
-        else if (Input.GetKey(KeyCode.E))
-        {
-            
-                selectedColor++;
-            Debug.Log("++");
-            if (selectedColor > AvaliableColors.Count - 1)
+            if (IsInWhite())
             {
                 selectedColor--;
+                Debug.Log("--");
+                if (selectedColor < 0)
+                {
+                    selectedColor++;
+                }
+                else
+                {
+                    Debug.Log(selectedColor);
+                    Debug.Log(AvaliableColors[selectedColor]);
+                    MyColor = AvaliableColors[selectedColor];
+                    ConfirmColorChange();
+                }
             }
             else
-            {
-                Debug.Log(selectedColor);
-                Debug.Log(AvaliableColors[selectedColor]);
-                MyColor = AvaliableColors[selectedColor];
-                ConfirmColorChange();
-            }
+                Debug.Log("Can't change");
+
+
+
         }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+
+            if (IsInWhite())
+            {
+                selectedColor++;
+                Debug.Log("++");
+                if (selectedColor > AvaliableColors.Count - 1)
+                {
+                    selectedColor--;
+                }
+                else
+                {
+                    Debug.Log(selectedColor);
+                    Debug.Log(AvaliableColors[selectedColor]);
+                    MyColor = AvaliableColors[selectedColor];
+                    ConfirmColorChange();
+                }
+            }
+            else
+                Debug.Log("Can't change");
+        }
+        
+        
 
 
 
@@ -125,25 +153,25 @@ public class PlayerScript : MonoBehaviour
 
     private void ConfirmColorChange()
     {
-        if (MyColor =="Blue")
+        if (MyColor ==Colors.Blue)
         {
             SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-            renderer.color = new Color(0f, 0.5239f, 1f, 1f); // Set to opaque gray
+            renderer.color = new Color(0f, 0.5239f, 1f, 1f);
         }
-        if (MyColor == "White")
+        if (MyColor == Colors.White)
         {
             SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-            renderer.color = new Color(1f, 1f, 1f, 1f); // Set to opaque gray
+            renderer.color = new Color(1f, 1f, 1f, 1f); 
         }
-        if (MyColor == "Red")
+        if (MyColor == Colors.Red)
         {
             SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-            renderer.color = new Color(0.96f, 0.27f, 0.25f, 1f); // Set to opaque gray
+            renderer.color = new Color(0.96f, 0.27f, 0.25f, 1f); 
         }
-        if (MyColor == "Yellow")
+        if (MyColor == Colors.Yellow)
         {
             SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-            renderer.color = new Color(1f, 0.99f, 0.19f, 1f); // Set to opaque gray
+            renderer.color = new Color(1f, 0.99f, 0.19f, 1f); 
         }
 
 
@@ -156,8 +184,9 @@ public class PlayerScript : MonoBehaviour
         SavedCollider2Ds.Clear();
     }
 
-    public void GetColor(string Color)
+    public void GetColor(Colors Color)
     {
+        if(!AvaliableColors.Contains(Color))
         AvaliableColors.Add(Color);
         Debug.Log("Player got: " + Color);
     }
@@ -166,7 +195,14 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleColorChange();
+
+            HandleColorChange();
         
+    }
+
+    private bool IsInWhite()
+    {
+        
+        return Physics2D.OverlapCircle(transform.position, 0.47f,checkmask) == null;
     }
 }
