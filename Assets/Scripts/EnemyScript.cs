@@ -8,25 +8,24 @@ public class EnemyScript : MonoBehaviour
     private PlayerScript.Colors Color;
 
     [SerializeField]
-    private float chaseRange;
-
-    [SerializeField]
     private float speed;
 
-    [SerializeField]
-    private LayerMask playerLayer;
-
+    private float chaseRange;
     private Collider2D myCollider;
     private SpriteRenderer mySpriteRenderer;
+    private GameObject Target;
+    private Rigidbody2D RB2D;
 
     void Start()
     {
+        chaseRange = GetComponent<CircleCollider2D>().radius;
         myCollider = GetComponent<Collider2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         ConfirmColor();
         startNullColliders();
+        RB2D = GetComponent<Rigidbody2D>();
+        Target = null;
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -34,11 +33,8 @@ public class EnemyScript : MonoBehaviour
         if (collision.gameObject.tag == Color.ToString())
         {
             Physics2D.IgnoreCollision(collision.collider, myCollider, true);
-
+            
         }
-
-
-
     }
 
     void ConfirmColor()
@@ -68,14 +64,36 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        
+        if (Target != null)
+        {
+            //transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, speed * Time.deltaTime);
+            TurnToVector(Target.transform.position);
+            RB2D.velocity = speed * Time.deltaTime * transform.up;
+        }
+
     }
 
-    private bool CheckPlayer()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        return Physics2D.OverlapCircle(transform.position, chaseRange, playerLayer) != null;
+        if (collision.CompareTag("Player"))
+        {
+            Target = collision.gameObject;
+        }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Target = null;
+        }
+    }
+
+    public void TurnToVector(Vector2 nextWaypoint)
+    {
+        transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(nextWaypoint.y - transform.position.y, nextWaypoint.x - transform.position.x) * Mathf.Rad2Deg - 90);
+    }
 }

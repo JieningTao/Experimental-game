@@ -21,6 +21,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private LayerMask checkmask;
 
+    [SerializeField]
+    private HUDScript hud;
+
 
     private Colors MyColor;
     private List<Colors> AvaliableColors = new List<Colors>();
@@ -36,6 +39,24 @@ public class PlayerScript : MonoBehaviour
         Blue,
         Red,
         Yellow,
+    }
+
+    public void updateHUD()
+    {
+        if (AvaliableColors.Count > 1)
+            hud.PromptText.SetActive(true);
+        if(AvaliableColors.Contains(Colors.Blue))
+            hud.Blue.SetActive(true);
+        else
+            hud.Blue.SetActive(false);
+        if (AvaliableColors.Contains(Colors.Red))
+            hud.Red.SetActive(true);
+        else
+            hud.Red.SetActive(false);
+        if (AvaliableColors.Contains(Colors.Yellow))
+            hud.Yellow.SetActive(true);
+        else
+            hud.Yellow.SetActive(false);
     }
 
     //consider using seperate colliders for different colors.
@@ -55,7 +76,7 @@ public class PlayerScript : MonoBehaviour
         MyColor = AvaliableColors[0];
         checkCollider = GetComponentInChildren<Collider2D>();
 
-
+        updateHUD();
 
     }
 
@@ -65,10 +86,10 @@ public class PlayerScript : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        movement.Normalize();
 
 
-
-        body2D.velocity = movement*speed;
+        body2D.velocity = movement*speed*Time.deltaTime;
 
         // Boost from UFO script
         /*
@@ -189,6 +210,7 @@ public class PlayerScript : MonoBehaviour
         if(!AvaliableColors.Contains(Color))
         AvaliableColors.Add(Color);
         Debug.Log("Player got: " + Color);
+        updateHUD();
     }
 
 
@@ -202,7 +224,6 @@ public class PlayerScript : MonoBehaviour
 
     private bool IsInWhite()
     {
-        
         return Physics2D.OverlapCircle(transform.position, 0.47f,checkmask) == null;
     }
 }

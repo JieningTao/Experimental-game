@@ -92,6 +92,8 @@ GameObject:
   - component: {fileID: 4541527222554967630}
   - component: {fileID: 4613827983166462787}
   - component: {fileID: 4290264092275618706}
+  - component: {fileID: 5147125890726333776}
+  - component: {fileID: 4352758703663640596}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -108,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 4290264092275618705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -27.34, y: -5.44, z: 0}
-  m_LocalScale: {x: 0.54599994, y: 0.962325, z: 0.54599994}
+  m_LocalScale: {x: 0.35135093, y: 0.6192561, z: 0.35135093}
   m_Children:
   - {fileID: 3065464656380677900}
   m_Father: {fileID: 0}
@@ -175,8 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Color: 0
-  chaseRange: 10
-  speed: 0
+  speed: 170
 --- !u!60 &4613827983166462787
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -226,3 +227,35 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &5147125890726333776
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290264092275618705}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 4
+--- !u!70 &4352758703663640596
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290264092275618705}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 3.47}
+  m_Size: {x: 1, y: 5.96}
+  m_Direction: 0
